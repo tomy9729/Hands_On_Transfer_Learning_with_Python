@@ -1,0 +1,32 @@
+ubuntu@ip-172-31-14-86:~$ mkdir ssl
+ubuntu@ip-172-31-14-86:~$ cd ssl
+ubuntu@ip-172-31-14-86:~/ssl$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:1024 -keyout "cert.key" -out "cert.pem" -batch
+Can't load /home/ubuntu/.rnd into RNG
+139784413958592:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/ubuntu/.rnd
+Generating a RSA private key
+..+++++
+...............+++++
+writing new private key to 'cert.key'
+-----
+
+ubuntu@ip-172-31-14-86:~$ ipython
+Python 3.7.6 (default, Jan  8 2020, 19:59:22)
+Type 'copyright', 'credits' or 'license' for more information
+IPython 7.12.0 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: from IPython.lib import passwd
+
+In [2]: passwd()
+Enter password:
+Verify password:
+Out[2]: 'sha1:1a5ae45f14a0:65d2dcd00f5091951e1aa5ac494d040e1ccea974'
+
+In [3]: exit
+
+c = get_config()
+c.NotebookApp.certfile = u'/home/ubuntu/ssl/cert.pem'
+c.NotebookApp.keyfile = u'/home/ubuntu/ssl/cert.key'
+c.IPkernelApp.pylab = 'inline'
+c.NotebookApp.ip = '*'
+c.NotebookApp.open_browser = False
+c.NotebookApp.password = 'sha1:1a5ae45f14a0:65d2dcd00f5091951e1aa5ac494d040e1ccea974'
