@@ -1,0 +1,40 @@
+ubuntu@ip-172-31-14-86:~$ sudo lshw -businfo | grep -i display
+pci@0000:00:02.0           display    GD 5446
+pci@0000:00:1e.0           display    GK210GL [Tesla K80]
+ubuntu@ip-172-31-14-86:~$ nvidia-smi
+
+ubuntu@ip-172-31-14-86:~$ wget
+wget: missing URL
+Usage: wget [OPTION]... [URL]...
+
+Try 'wget --help' for more options.
+ubuntu@ip-172-31-14-86:~$ wget https://s3.amazonaws.com/personal-waf/cuda_8.0.61_375.26_linux.run
+--2021-02-19 08:44:31--  https://s3.amazonaws.com/personal-waf/cuda_8.0.61_375.26_linux.run
+Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.216.177.21
+Connecting to s3.amazonaws.com (s3.amazonaws.com)|52.216.177.21|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1465528129 (1.4G) [application/x-www-form-urlencoded]
+Saving to: ‘cuda_8.0.61_375.26_linux.run’
+
+cuda_8.0.61_375.26_linux. 100%[=====================================>]   1.36G  8.24MB/s    in 2m 54s
+
+2021-02-19 08:47:25 (8.05 MB/s) - ‘cuda_8.0.61_375.26_linux.run’ saved [1465528129/1465528129]
+
+ubuntu@ip-172-31-14-86:~$ sudo rm -rf /usr/local/cuda*
+ubuntu@ip-172-31-14-86:~$ sudo sh cuda_8.0.61_375.26_linux.run
+
+ubuntu@ip-172-31-14-86:/$ wget https://s3.amazonaws.com/personal-waf/cudnn-8.0-linux-x64-v5.1.tgz
+ubuntu@ip-172-31-14-86:/$ sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+ubuntu@ip-172-31-14-86:/$ cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+ubuntu@ip-172-31-14-86:/$ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+
+ubuntu@ip-172-31-14-86:/$ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+
+ubuntu@ip-172-31-14-86:/$ vim ~/.bashrc
+#맨마지막에 아래 줄들을 추가한다.
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64"
+export CUDA_HOME=/usr/local/cuda
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:$CUDA_HOME/lib"
+export PATH="$CUDA_HOME/bin:$PATH"
+
+ pip install --upgrade tensorflow https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-2.4.0-cp37-cp37m-manylinux2010_x86_64.whl
